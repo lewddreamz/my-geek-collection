@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    {% for result in results %}
+        <div class="result">
+            <span>{{result.title}}, {{result.createdAt is null ? 'N\A' : result.createdAt|date('m-d-Y')}}</span> <div class="button">
+                <form action="/entry/add" method="POST">
+                    <input type="hidden" name="title" value="{{result.title}}">
+                    <input type="hidden" name="genre" value="{{result.genre|join(',')}}">
+                    <input type="hidden" name="createdAt" value="{{result.createdAt is null ? 'N\A' : result.createdAt|date('m-d-Y')}}">
+                    <input type="hidden" name="title" value="{{result.title}}">
+                    <button type="submit">Добавить</button>
+                </form>
+                </div>
+        </div>
+    {% endfor %}
+    <div class="links">
+        <p><a href="{{ path('index') }}">На главную</a></p>
+    </div>
+{% endblock %}
+{#result.createdAt is null ? 'N\A' : result.createdAt|date('m-d-Y')#}

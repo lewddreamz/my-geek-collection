@@ -1,15 +1,19 @@
 <?php
 declare(strict_types=1);
 namespace App\Entity;
+use App\Enums\CollectionTypes;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection as DoctrineCollection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\TypeInfo\Type\CollectionType;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(CollectionRepository::class)]
 class Collection
 {
+    use FillableTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -23,11 +27,12 @@ class Collection
     private ?Collection $parent;
 
     #[ORM\Column(type: Types::TEXT)]
+    
     /**
-     * EntryDataObject subclass
-     * @var EntryDataObject::class string
+     * Type of collection's entrys
+     * @var CollectionTypes
      */
-    private string $entryType;
+    private CollectionTypes $entryType;
     
     /**
      * @property list<EntryDataObject> $objects
@@ -39,5 +44,9 @@ class Collection
      * @var list<Collection> $subcollections
      */
     private ArrayCollection $subcollections;
-        
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
 }

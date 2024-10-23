@@ -9,14 +9,19 @@ use Doctrine\ORM\Mapping\MappedSuperclass;
 #[MappedSuperclass]
 abstract class EntryDataObject
 {
+    use FillableTrait;
+    #[ORM\Id]
+    #[ORM\Column]
+    #[ORM\GeneratedValue()]
+    protected ?int $id;
     #[ORM\Column(type:Types::STRING)]
     protected string $title;
     #[ORM\Column(type:Types::STRING)]
-    protected string $genre;
+    protected array|string $genre;
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
-    protected \DateTimeInterface $createdAt;
+    protected ?\DateTimeInterface $createdAt;
     #[ORM\Column(type:Types::STRING)]
-    protected string $author;
+    protected ?string $author;
 
     /**
      * Get the value of author
@@ -69,9 +74,9 @@ abstract class EntryDataObject
     /**
      * Get the value of genre
      *
-     * @return string
+     * @return string|array
      */
-    public function getGenre(): string
+    public function getGenre(): string|array
     {
         return $this->genre;
     }
@@ -79,11 +84,11 @@ abstract class EntryDataObject
     /**
      * Set the value of genre
      *
-     * @param string $genre
+     * @param array|string $genre
      *
      * @return self
      */
-    public function setGenre(string $genre): self
+    public function setGenre(string|array $genre): self
     {
         $this->genre = $genre;
 
@@ -95,7 +100,7 @@ abstract class EntryDataObject
      *
      * @return \DateTimeInterface
      */
-    public function getCreatedAt(): \DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
@@ -107,7 +112,7 @@ abstract class EntryDataObject
      *
      * @return self
      */
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(?\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 

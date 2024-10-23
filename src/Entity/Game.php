@@ -7,10 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(GameRepository::class)]
 class Game extends EntryDataObject
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id;
+    // #[ORM\Id]
+    // #[ORM\GeneratedValue]
+    // #[ORM\Column]
+    // private ?int $id;
     #[ORM\Column(type: Types::STRING)]
     private string $publisher;
 }
