@@ -1,11 +1,19 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Entity;
-use Doctrine\DBAL\Types\Types;
+
+use App\Enums\CollectionTypes;
+use App\Repository\EntryRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\DiscriminatorColumn;
+use Doctrine\ORM\Mapping\DiscriminatorMap;
 use Doctrine\ORM\Mapping\InheritanceType;
-use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
+use Symfony\Component\Serializer\Attribute\Context;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
+use Symfony\Component\Validator\Constraints as Assert;
+
 #[ORM\Entity(EntryRepository::class)]
 #[InheritanceType('SINGLE_TABLE')]
 #[DiscriminatorColumn('discr')]
@@ -14,24 +22,70 @@ use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
     'game' => GameEntry::class,
     'book' => BookEntry::class,
 ])]
-class Entry
+class Entry implements EntryInterface
 {
+    use FillableTrait;
     #[ORM\Id]
     #[ORM\GeneratedValue()]
     #[ORM\Column]
     private ?int $id;
+    #[ORM\Column(enumType: CollectionTypes::class)]
+    #[Assert\NotBlank()]
+    #[Assert\Choice(callback: [CollectionTypes::class, 'cases'])]
+    protected CollectionTypes $entryType;
     #[ORM\Column]
-    private string $entryType;
-    #[ORM\Column]
-    private \DateTimeImmutable $createdAt;
-    #[ORM\ManyToOne(Collection::class)]
-    private Collection $collection;
-    public function __construct(string $entryType)
+    #[Context([DateTimeNormalizer::FORMAT_KEY => \DateTime::RFC3339])]
+    #[Assert\NotBlank()]
+    protected \DateTimeImmutable $createdAt;
+    #[ORM\ManyToOne(Collection::class, inversedBy: 'entries')]
+    protected Collection $collection;
+    #[Assert\NotBlank]
+    protected ?EntryDataObject $edo;
+    public function data(): EntryDataObject
     {
-        $interfaces = class_implements($entryType);
-        if (!in_array(EntryDataObject::class, $interfaces)) {
-            throw new \InvalidArgumentException("$entryType MUST BE a class extending \App\Entity\EntryDataObject");
-        }
-        $this->entryType = $entryType;
+        return $this->edo;
+    }
+//    public function getTitle(): ?string
+//    {
+////        if ($this->edo ?? null) {
+////            return $this->edo->getTitle();
+////        }
+////        return null;
+//        return $this->edo->getTitle();
+//    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function setId(?int $id): void
+    {
+        $this->id = $id;
+    }
+
+    public function getCreatedAt(): \DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    public function getCollection(): Collection
+    {
+        return $this->collection;
+    }
+
+    public function setCollection(Collection $collection): void
+    {
+        $this->collection = $collection;
+    }
+
+    public function getEntryType(): CollectionTypes
+    {
+        return $this->entryType;
     }
 }

@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<form action="{{ path('registration-new') }}" method="POST">
+    <label for="login">Email</label>
+    <input type="text" name="email" id="email">
+    <label for="password">Пароль</label>
+    <input type="text" name="password" id="password">
+    <button type="submit">Зарегистрироваться</button>
+</form>
+{% endblock %}

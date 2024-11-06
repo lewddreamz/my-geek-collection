@@ -1,32 +1,22 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<div class="search">
-    <form action="search">
-        <input type="text" name="title" id="title">
-        <fieldset>
-            <label for="api">TMDB<input type="radio" name="api" id="" value="tmdb" checked></label>
-            <label><input type="radio" name="api" value="MAL">MAL</label>
-        </fieldset>
-        <button type="submit">Поиск</button>
-    </form>
-</div>
-<div class="collection-create">
-<p>Добавить новую коллекцию</p>
-        <form action="{{path('collection_create')}}" method="POST">
-            <input type="text" name="name" id="collection-name">
-            <select name="type" id="collection-type">
-                <option value="film">Фильмы</option>
-                <option value="game">Игры</option>
-                <option value="book">Книги</option>
-            </select>
-            <button type="submit">Добавить</button>
-        </form>
+    <div class="container w-1/2 mx-auto">
+        <h2 class="text-lg">Добавить новую коллекцию</h2>
+        <div class="collection-create flex-col">
+            {{ form_start(form) }}
+            {{ form_row(form.name, ) }}
+            {{ form_row(form.type) }}
+            {{ form_row(form.submit) }}
+            {{ form_end(form) }}
+        </div>
+        <div class="collections-list flex-col text-center mt-20">
+    <span>
+    Список коллекций
+    </span>
+            {% for collection in collections %}
+                <p><a href="{{ path('collection-get', {id: collection.id}) }}">{{ collection.name }}</a></p>
+            {% endfor %}
+        </div>
     </div>
-{% for collection in collections %}
-    {% for entry in collection %}
-        <p>{{entry.title}}</p>
-    {% endfor %}
-{% endfor %}
-
 {% endblock %}

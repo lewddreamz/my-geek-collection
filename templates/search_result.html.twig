@@ -1,15 +1,18 @@
 {% extends 'base.html.twig' %}
 {% block body %}
     {% for result in results %}
-        <div class="result">
-            <span>{{result.title}}, {{result.createdAt is null ? 'N\A' : result.createdAt|date('m-d-Y')}}</span> <div class="button">
-                <form action="/entry/add" method="POST">
-                    <input type="hidden" name="title" value="{{result.title}}">
-                    <input type="hidden" name="genre" value="{{result.genre|join(',')}}">
-                    <input type="hidden" name="createdAt" value="{{result.createdAt is null ? 'N\A' : result.createdAt|date('m-d-Y')}}">
-                    <input type="hidden" name="title" value="{{result.title}}">
-                    <button type="submit">Добавить</button>
-                </form>
+        <div class="result border rounded-lg border-neutral-400/75 mb-3">
+            <span>{{result.object.title}}, {{result.object.createdAt is null ? 'N\A' : result.object.createdAt|date('m-d-Y')}}</span> <div class="button">
+                    <form class="container w-1/4 mx-auto flex-col text-center" action="{{ path('entry-add') }}" method="POST">
+                        <input type="hidden" name="serialized" value="{{ result.object|serialize() }}">
+                        <input type="hidden" name="class" value="{{ constant('class', result.object) }}">
+                        <select class="text-center rounded-lg bg-gray-200 mx-auto" name="collection_id" id="collection">
+                            {% for collection in collections %}
+                                <option value="{{ collection.id }}">{{ collection.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <button class="btn rounded-lg" type="submit">Добавить</button>
+                    </form>
                 </div>
         </div>
     {% endfor %}

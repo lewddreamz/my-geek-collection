@@ -1,11 +1,16 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\MappedSuperclass;
+use Symfony\Component\Serializer\Attribute\Context;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
+use Symfony\Component\Validator\Constraints as Assert;
+
 #[MappedSuperclass]
 abstract class EntryDataObject
 {
@@ -14,19 +19,23 @@ abstract class EntryDataObject
     #[ORM\Column]
     #[ORM\GeneratedValue()]
     protected ?int $id;
-    #[ORM\Column(type:Types::STRING)]
+    #[ORM\Column(type: Types::STRING)]
+    #[Assert\NotBlank]
     protected string $title;
-    #[ORM\Column(type:Types::STRING)]
-    protected array|string $genre;
+    #[ORM\Column(type: Types::ARRAY)]
+    #[Assert\NotNull]
+    protected array $genre;
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
-    protected ?\DateTimeInterface $createdAt;
-    #[ORM\Column(type:Types::STRING)]
+    #[Assert\NotBlank]
+    #[Context([DateTimeNormalizer::FORMAT_KEY => \DateTimeInterface::RFC3339])]
+    protected ?\DateTimeImmutable $createdAt;
+    #[ORM\Column(type: Types::STRING)]
+    #[Assert\NotBlank]
     protected ?string $author;
 
+
     /**
-     * Get the value of author
-     *
-     * @return string
+     * Get the value of author.
      */
     public function getAuthor(): string
     {
@@ -34,11 +43,7 @@ abstract class EntryDataObject
     }
 
     /**
-     * Set the value of author
-     *
-     * @param string $author
-     *
-     * @return self
+     * Set the value of author.
      */
     public function setAuthor(string $author): self
     {
@@ -48,9 +53,7 @@ abstract class EntryDataObject
     }
 
     /**
-     * Get the value of title
-     *
-     * @return string
+     * Get the value of title.
      */
     public function getTitle(): string
     {
@@ -58,11 +61,7 @@ abstract class EntryDataObject
     }
 
     /**
-     * Set the value of title
-     *
-     * @param string $title
-     *
-     * @return self
+     * Set the value of title.
      */
     public function setTitle(string $title): self
     {
@@ -72,9 +71,7 @@ abstract class EntryDataObject
     }
 
     /**
-     * Get the value of genre
-     *
-     * @return string|array
+     * Get the value of genre.
      */
     public function getGenre(): string|array
     {
@@ -82,11 +79,7 @@ abstract class EntryDataObject
     }
 
     /**
-     * Set the value of genre
-     *
-     * @param array|string $genre
-     *
-     * @return self
+     * Set the value of genre.
      */
     public function setGenre(string|array $genre): self
     {
@@ -96,23 +89,17 @@ abstract class EntryDataObject
     }
 
     /**
-     * Get the value of createdAt
-     *
-     * @return \DateTimeInterface
+     * Get the value of createdAt.
      */
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
 
     /**
-     * Set the value of createdAt
-     *
-     * @param \DateTimeInterface $createdAt
-     *
-     * @return self
+     * Set the value of createdAt.
      */
-    public function setCreatedAt(?\DateTimeInterface $createdAt): self
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 
