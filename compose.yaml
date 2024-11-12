@@ -1,8 +1,6 @@
 services:
   php:
     image: ${IMAGES_PREFIX:-}app-php
-    healthcheck:
-      disable: true
     restart: unless-stopped
 
     environment:
