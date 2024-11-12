@@ -30,6 +30,7 @@ jobs:
           load: true
           files: |
             compose.yaml
+            compose.prod.yaml
           targets: frankenphp_prod
           set: |
             *.cache-from=type=gha,scope=${{github.ref}}
