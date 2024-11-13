@@ -39,9 +39,6 @@ jobs:
         name: Start services
         run: docker compose up --no-build
       -
-        name: test la
-        run: docker compose exec php bash ls -la
-      -
         name: Check HTTP reachability
         run: curl -v --fail-with-body http://localhost
       -
