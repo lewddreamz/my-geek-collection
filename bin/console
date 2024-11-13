@@ -4,7 +4,6 @@
 use App\Kernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 echo (exec('ls -la /app')) . PHP_EOL;
-echo is_dir(dirname(__DIR__).'/vendor'. PHP_EOL;
 die();
 if (!is_dir(dirname(__DIR__).'/vendor')) {
     throw new LogicException('Dependencies are missing. Try running "composer install".');
