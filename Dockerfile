@@ -39,9 +39,6 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV PHP_INI_SCAN_DIR=":$PHP_INI_DIR/app.conf.d"
 
 ###> recipes ###
-###> doctrine/doctrine-bundle ###
-RUN install-php-extensions pdo_pgsql
-###< doctrine/doctrine-bundle ###
 ###< recipes ###
 
 COPY --link frankenphp/conf.d/10-app.ini $PHP_INI_DIR/app.conf.d/
@@ -51,7 +48,7 @@ COPY --link frankenphp/Caddyfile /etc/caddy/Caddyfile
 ENTRYPOINT ["docker-entrypoint"]
 
 HEALTHCHECK --start-period=60s CMD curl -f http://localhost:2019/metrics || exit 1
-CMD [ "sh", "-c" , "php bin/console tailwind:build && frankenphp run --config /etc/caddy/Caddyfile" ]
+CMD [ "frankenphp", "run", "--config", "/etc/caddy/Caddyfile" ]
 
 # Dev FrankenPHP image
 FROM frankenphp_base AS frankenphp_dev
@@ -67,8 +64,7 @@ RUN set -eux; \
 
 COPY --link frankenphp/conf.d/20-app.dev.ini $PHP_INI_DIR/app.conf.d/
 
-#CMD [ "frankenphp", "run", "--config", "/etc/caddy/Caddyfile", "--watch" ]
-CMD [ "sh", "-c" , "frankenphp run --config /etc/caddy/Caddyfile --watch" ]
+CMD [ "frankenphp", "run", "--config", "/etc/caddy/Caddyfile", "--watch" ]
 
 # Prod FrankenPHP image
 FROM frankenphp_base AS frankenphp_prod
@@ -95,4 +91,4 @@ RUN set -eux; \
 	composer dump-autoload --classmap-authoritative --no-dev; \
 	composer dump-env prod; \
 	composer run-script --no-dev post-install-cmd; \
-	chmod +x bin/console; ls -la; sync; \
+	chmod +x bin/console; sync;
