@@ -68,7 +68,7 @@ RUN set -eux; \
 COPY --link frankenphp/conf.d/20-app.dev.ini $PHP_INI_DIR/app.conf.d/
 
 #CMD [ "frankenphp", "run", "--config", "/etc/caddy/Caddyfile", "--watch" ]
-CMD [ "sh", "-c" , "frankenphp run --config /etc/caddy/Caddyfile --watch" ]
+CMD [ "sh", "-c" , "php bin/console tailwind:build && frankenphp run --config /etc/caddy/Caddyfile --watch" ]
 
 # Prod FrankenPHP image
 FROM frankenphp_base AS frankenphp_prod
