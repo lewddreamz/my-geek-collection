@@ -52,7 +52,11 @@ if [ "$1" = 'frankenphp' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
 			php bin/console doctrine:migrations:migrate --no-interaction --all-or-nothing
 		fi
 	fi
-
+#	 build tailwind.css
+	php /app/bin/console tailwind:build
+	if [ $APP_ENV = dev ]; then
+		php /app/bin/console doctrine:fixtures:load -q
+	fi
 	setfacl -R -m u:www-data:rwX -m u:"$(whoami)":rwX var
 	setfacl -dR -m u:www-data:rwX -m u:"$(whoami)":rwX var
 fi
