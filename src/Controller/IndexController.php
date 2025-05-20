@@ -13,9 +13,9 @@ use Symfony\Component\Routing\Attribute\Route;
 class IndexController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function showCollections(CollectionRepository $colRep): Response
+    public function showCollections(CollectionRepository $repository): Response
     {
-        $all = $colRep->findAll();
+        $all = $repository->findAll();
         $form = $this->createForm(CollectionForm::class, null, [
             'action' => $this->generateUrl('collection-create'),
         ]);

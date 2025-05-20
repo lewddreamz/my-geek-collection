@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 namespace App\Service\Api;
+use App\Service\Api\Tmdb\TmdbApi;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Contracts\Service\ServiceSubscriberInterface;
 use Psr\Container\ContainerInterface;
@@ -19,7 +20,7 @@ class Search implements ServiceSubscriberInterface
     public static function getSubscribedServices():array
     {
         return [
-            'tmdb' => TMDBapi::class
+            'tmdb' => TmdbApi::class
         ];
     }
     

@@ -3,13 +3,12 @@
 <div class="">
     <p>{{collection.name}}</p>
     <div class="add-entry">
-        {# {{form()}} #}
         <p><a href="{{ path('search') }}">Добавить новую запись</a></p>
     </div>
 </div>
 <div>
     {% for entry in collection.entries %}
-        <p>{{ entry.data.title }}</p>
+        <p>Название: {{ entry.metadata.title }}, год выхода: {{ entry.createdAt|date('Y-m-d') }}</p>
     {% endfor %}
 </div>
 {% endblock %}

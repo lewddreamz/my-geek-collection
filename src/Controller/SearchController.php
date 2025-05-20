@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Forms\SearchForm;
 use App\Repository\CollectionRepository;
 use App\Service\Api\Search;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,10 +23,12 @@ class SearchController extends AbstractController
         #[MapQueryParameter] string $api,
         CollectionRepository $repository,
         Search $search,
-        SerializerInterface $serializer): Response
+        SerializerInterface $serializer,
+        LoggerInterface $logger): Response
     {
         $search->setApi($api);
         $results = $search->findByTitle($title);
+        $logger->info(print_r($results, true));
         $arr = [];
         foreach ($results as $result) {
             $arr[] = ['object' => $result,

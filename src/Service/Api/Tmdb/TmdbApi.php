@@ -2,18 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Api;
+namespace App\Service\Api\Tmdb;
 
+use App\Service\Api\ApiInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpClient\HttpOptions;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class TMDBapi implements ApiInterface
+class TmdbApi implements ApiInterface
 {
     private string $baseUrl = 'https://api.themoviedb.org';
     private string $accessToken = '9b59eeaf415a933eced065d87c116e90';
 
-    public function __construct(private HttpClientInterface $httpClient, private TMDBapiFactory $factory)
+    public function __construct(private HttpClientInterface $httpClient, private TmdbApiFactory $factory)
     {
         $this->httpClient = $this->httpClient->withOptions(
             (new HttpOptions())

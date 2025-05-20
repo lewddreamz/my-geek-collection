@@ -1,8 +1,11 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Entity;
+
 use App\Enums\CollectionTypes;
-use Doctrine\Common\Collections\ArrayCollection;
+use App\Repository\CollectionRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
@@ -11,8 +14,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(CollectionRepository::class)]
 class Collection
 {
-    use FillableTrait;
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -26,33 +27,28 @@ class Collection
     private ?Collection $parent;
 
     #[ORM\Column(type: Types::TEXT, enumType: CollectionTypes::class)]
-    
     /**
-     * Type of collection's entries
-     * @var CollectionTypes
+     * Type of collection's entries.
      */
     private CollectionTypes $type;
-    /**
-     * @property list<EntryDataObject> $objects
-     */
     #[ORM\OneToMany(Collection::class, 'parent')]
     /**
-     * List of subcollections
-     * @var list<Collection> $subcollections
+     * List of subcollections.
+     *
+     * @var list<Collection>
      */
     private PersistentCollection $subcollections;
 
-    #[ORM\OneToMany(Entry::class, mappedBy: 'collection', orphanRemoval: true)]
+    #[ORM\OneToMany(Entry::class, mappedBy: 'collection', cascade: ['remove'], orphanRemoval: true)]
     private PersistentCollection $entries;
+
     public function getName(): string
     {
         return $this->name;
     }
 
     /**
-     * Get the value of id
-     *
-     * @return ?int
+     * Get the value of id.
      */
     public function getId(): ?int
     {
@@ -60,9 +56,7 @@ class Collection
     }
 
     /**
-     * Get the value of parent
-     *
-     * @return ?Collection
+     * Get the value of parent.
      */
     public function getParent(): ?Collection
     {
@@ -70,11 +64,7 @@ class Collection
     }
 
     /**
-     * Set the value of parent
-     *
-     * @param ?Collection $parent
-     *
-     * @return self
+     * Set the value of parent.
      */
     public function setParent(?Collection $parent): self
     {
@@ -84,20 +74,15 @@ class Collection
     }
 
     /**
-     * Get the value of entries
-     *
-     * @return PersistentCollection
+     * Get the value of entries.
      */
     public function getEntries(): PersistentCollection
     {
         return $this->entries;
     }
+
     /**
-     * Set the value of name
-     *
-     * @param ?string $name
-     *
-     * @return self
+     * Set the value of name.
      */
     public function setName(?string $name): self
     {

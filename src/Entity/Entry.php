@@ -6,53 +6,30 @@ namespace App\Entity;
 
 use App\Enums\CollectionTypes;
 use App\Repository\EntryRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\DiscriminatorColumn;
-use Doctrine\ORM\Mapping\DiscriminatorMap;
-use Doctrine\ORM\Mapping\InheritanceType;
 use Symfony\Component\Serializer\Attribute\Context;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(EntryRepository::class)]
-#[InheritanceType('SINGLE_TABLE')]
-#[DiscriminatorColumn('discr')]
-#[DiscriminatorMap([
-    'film' => FilmEntry::class,
-    'game' => GameEntry::class,
-    'book' => BookEntry::class,
-])]
-class Entry implements EntryInterface
+class Entry
 {
-    use FillableTrait;
     #[ORM\Id]
     #[ORM\GeneratedValue()]
     #[ORM\Column]
     private ?int $id;
-    #[ORM\Column(enumType: CollectionTypes::class)]
-    #[Assert\NotBlank()]
+    #[ORM\Column(nullable: true, enumType: CollectionTypes::class)]
     #[Assert\Choice(callback: [CollectionTypes::class, 'cases'])]
-    protected CollectionTypes $entryType;
+    protected ?CollectionTypes $entryType = null;
     #[ORM\Column]
-    #[Context([DateTimeNormalizer::FORMAT_KEY => \DateTime::RFC3339])]
+    #[Context([DateTimeNormalizer::FORMAT_KEY => \DateTimeInterface::RFC3339])]
     #[Assert\NotBlank()]
     protected \DateTimeImmutable $createdAt;
     #[ORM\ManyToOne(Collection::class, inversedBy: 'entries')]
     protected Collection $collection;
-    #[Assert\NotBlank]
-    protected ?EntryDataObject $edo;
-    public function data(): EntryDataObject
-    {
-        return $this->edo;
-    }
-//    public function getTitle(): ?string
-//    {
-////        if ($this->edo ?? null) {
-////            return $this->edo->getTitle();
-////        }
-////        return null;
-//        return $this->edo->getTitle();
-//    }
+    #[ORM\Column(type: Types::JSON, options: ['jsonb' => true])]
+    protected array $metadata;
 
     public function getId(): ?int
     {
@@ -84,8 +61,23 @@ class Entry implements EntryInterface
         $this->collection = $collection;
     }
 
-    public function getEntryType(): CollectionTypes
+    public function setEntryType(?CollectionTypes $entryType): void
+    {
+        $this->entryType = $entryType;
+    }
+
+    public function getEntryType(): ?CollectionTypes
     {
         return $this->entryType;
+    }
+
+    public function getMetadata(): array
+    {
+        return $this->metadata;
+    }
+
+    public function setMetadata(array $metadata): void
+    {
+        $this->metadata = $metadata;
     }
 }

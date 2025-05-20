@@ -2,7 +2,7 @@
 {% block body %}
     {% for result in results %}
         <div class="result border rounded-lg border-neutral-400/75 mb-3">
-            <span>{{result.object.title}}, {{result.object.createdAt is null ? 'N\A' : result.object.createdAt|date('m-d-Y')}}</span> <div class="button">
+            <span>{{result.object.metadata.title}}, {{result.object.createdAt is null ? 'N\A' : result.object.createdAt|date('m-d-Y')}}</span> <div class="button">
                     <form class="container w-1/4 mx-auto flex-col text-center" action="{{ path('entry-add') }}" method="POST">
                         <input type="hidden" name="serialized" value="{{ result.object|serialize() }}">
                         <input type="hidden" name="class" value="{{ constant('class', result.object) }}">

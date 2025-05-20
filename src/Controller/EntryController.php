@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\Entry;
 use App\Entity\FilmEntry;
-use App\Enums\CollectionTypes;
-use App\Forms\FormFactory;
 use App\Repository\CollectionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -33,11 +32,9 @@ class EntryController extends AbstractController
         $collectionId = $request->request->get('collection_id');
         $class = $request->request->get('class');
         $serializer = new Serializer([new DateTimeNormalizer(), new ObjectNormalizer(propertyTypeExtractor: new ReflectionExtractor())], [new JsonEncoder()]);
-        $film = $serializer->deserialize($serialized, $class, 'json');
+        $entry = $serializer->deserialize($serialized, $class, 'json');
 
-        $entry = new FilmEntry();
         $entry->setCollection($collectionRepository->find($collectionId));
-        $entry->setFilm($film);
         $entry->setCreatedAt(new \DateTimeImmutable());
 
         $errors = $validator->validate($entry);

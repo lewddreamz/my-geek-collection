@@ -6,27 +6,20 @@ namespace App\Controller;
 
 use App\Entity\Collection;
 use App\Forms\CollectionForm;
-use App\Repository\CollectionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 
 class CollectionController extends AbstractController
 {
     #[Route('collection/{id}', name: 'collection-get', methods: ['GET'])]
-    public function get(CollectionRepository $cRep, int $id): Response
+    public function get(Collection $collection): Response
     {
-        $collection = $cRep->find($id);
-        if (!is_null($collection)) {
-            return $this->render('collection.html.twig', [
-                'collection' => $collection,
-            ]);
-        } else {
-            throw new NotFoundHttpException("No collection with id $id");
-        }
+        return $this->render('collection.html.twig', [
+            'collection' => $collection,
+        ]);
     }
 
     #[Route('collection/create', name: 'collection-create', methods: 'POST')]
@@ -47,12 +40,16 @@ class CollectionController extends AbstractController
                 $this->redirectToRoute('error', ['errors' => $formErrors]);
             }
         }
+
         return $this->redirectToRoute('index');
     }
 
-    #[Route('collection/delete', 'collection_delete', methods: 'DELETE')]
-    public function delete(): Response
+    #[Route('collection/delete/{id}', 'collection_delete', methods: 'DELETE')]
+    public function delete(Collection $collection, EntityManagerInterface $em): Response
     {
-        return $this->redirectToRoute('index');
+        $em->remove($collection);
+        $em->flush();
+        #TODO нужно допилить шаблон коллекций
+        return $this->render('collection.html.twig');
     }
 }

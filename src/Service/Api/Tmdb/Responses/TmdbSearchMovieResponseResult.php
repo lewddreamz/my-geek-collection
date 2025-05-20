@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Service\Api\Responses;
+namespace App\Service\Api\Tmdb\Responses;
 
-readonly class TMDBSearchMovieResult
+readonly class TmdbSearchMovieResponseResult
 {
     public function __construct(
         public bool $adult,

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "622a3dc3689c32eb5777f2b302541905",
+    "content-hash": "0b6b41af7b1a94e7848d4a43a8f5f114",
     "packages": [
         {
             "name": "composer/semver",
@@ -4412,16 +4412,16 @@
         },
         {
             "name": "symfony/messenger",
-            "version": "v7.1.6",
+            "version": "v7.1.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/messenger.git",
-                "reference": "a391d2cb2b15436c0e3fbdf983440e762a30f88b"
+                "reference": "51e2b8b6a14b78ad7db60ef5f195ae893c16b9cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/messenger/zipball/a391d2cb2b15436c0e3fbdf983440e762a30f88b",
-                "reference": "a391d2cb2b15436c0e3fbdf983440e762a30f88b",
+                "url": "https://api.github.com/repos/symfony/messenger/zipball/51e2b8b6a14b78ad7db60ef5f195ae893c16b9cc",
+                "reference": "51e2b8b6a14b78ad7db60ef5f195ae893c16b9cc",
                 "shasum": ""
             },
             "require": {
@@ -4478,7 +4478,7 @@
             "description": "Helps applications send and receive messages to/from other applications or via message queues",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/messenger/tree/v7.1.6"
+                "source": "https://github.com/symfony/messenger/tree/v7.1.9"
             },
             "funding": [
                 {
@@ -4494,7 +4494,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-09-25T14:20:29+00:00"
+            "time": "2024-11-26T09:50:51+00:00"
         },
         {
             "name": "symfony/mime",
@@ -7524,16 +7524,16 @@
         },
         {
             "name": "symfonycasts/tailwind-bundle",
-            "version": "v0.6.0",
+            "version": "v0.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SymfonyCasts/tailwind-bundle.git",
-                "reference": "4cde58e23605e136d5c40a9c945c673b488d4fd6"
+                "reference": "380502c39bf403f772d050ff9904932040de8cf1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SymfonyCasts/tailwind-bundle/zipball/4cde58e23605e136d5c40a9c945c673b488d4fd6",
-                "reference": "4cde58e23605e136d5c40a9c945c673b488d4fd6",
+                "url": "https://api.github.com/repos/SymfonyCasts/tailwind-bundle/zipball/380502c39bf403f772d050ff9904932040de8cf1",
+                "reference": "380502c39bf403f772d050ff9904932040de8cf1",
                 "shasum": ""
             },
             "require": {
@@ -7541,13 +7541,15 @@
                 "symfony/asset-mapper": "^6.3|^7.0",
                 "symfony/cache": "^6.3|^7.0",
                 "symfony/console": "^5.4|^6.3|^7.0",
+                "symfony/deprecation-contracts": "^2.2|^3.0",
                 "symfony/http-client": "^5.4|^6.3|^7.0",
                 "symfony/process": "^5.4|^6.3|^7.0"
             },
             "require-dev": {
+                "phpunit/phpunit": "^9.6",
                 "symfony/filesystem": "^6.3|^7.0",
                 "symfony/framework-bundle": "^6.3|^7.0",
-                "symfony/phpunit-bridge": "^6.3|^7.0"
+                "symfony/phpunit-bridge": "^6.3.9|^7.0"
             },
             "type": "library",
             "autoload": {
@@ -7572,9 +7574,9 @@
             ],
             "support": {
                 "issues": "https://github.com/SymfonyCasts/tailwind-bundle/issues",
-                "source": "https://github.com/SymfonyCasts/tailwind-bundle/tree/v0.6.0"
+                "source": "https://github.com/SymfonyCasts/tailwind-bundle/tree/v0.10.0"
             },
-            "time": "2024-07-05T21:02:14+00:00"
+            "time": "2025-04-09T15:18:46+00:00"
         },
         {
             "name": "tales-from-a-dev/flowbite-bundle",
@@ -12555,7 +12557,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
@@ -12563,6 +12565,6 @@
         "ext-ctype": "*",
         "ext-iconv": "*"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "plugin-api-version": "2.6.0"
 }
