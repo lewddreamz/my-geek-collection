@@ -14,7 +14,6 @@ services:
     environment:
       MERCURE_EXTRA_DIRECTIVES: demo
       # See https://xdebug.org/docs/all_settings#mode
-      DATABASE_URL: postgresql://${POSTGRES_USER:-app}:${POSTGRES_PASSWORD:-geek_password}@database_test:5432/${POSTGRES_DB:-app_test}?serverVersion=${POSTGRES_VERSION:-15}&charset=${POSTGRES_CHARSET:-utf8}
       XDEBUG_MODE: "${XDEBUG_MODE:-off}"
     extra_hosts:
       # Ensure that host.docker.internal is correctly defined on Linux

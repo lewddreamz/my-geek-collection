@@ -30,3 +30,7 @@
 /.php-cs-fixer.cache
 ###< friendsofphp/php-cs-fixer ###
 /docs/
+
+###> idea ###
+/.idea/
+###< idea ###

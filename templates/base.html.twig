@@ -12,21 +12,21 @@
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
-    <body class="bg-blue-700 text-zinc-500">
+    <body class="bg-zinc-300 text-black-500">
     <div class="nav-bar flex fixed inset-x-1/4 top-0 h-8 bg-slate-500 text-center">
         <div class="border-y-0 w-1/5"><a href="{{ path('index') }}">Главная</a></div>
         <div class="h-8 w-px bg-slate-600"></div>
         <div class="border-y-0 w-1/5"><a href="{{ path('search') }}">Поиск</a></div>
         <div class="h-8 w-px bg-slate-600"></div>
     </div>
-    <div class="auth container bg-black">
+    <div class="auth container">
         {% if is_granted('IS_AUTHENTICATED') %}
             <p>Привет, {{ app.user.userIdentifier }}!</p>
         {% else %}
             <p>Unauthorized!</p>
         {% endif %}
     </div>
-    <div class="container mx-auto w-3/4 mt-10 bg-blue-700 ">
+    <div class="container mx-auto w-3/4 mt-10 ">
         {% block body %}
         {% endblock %}
     </div>
